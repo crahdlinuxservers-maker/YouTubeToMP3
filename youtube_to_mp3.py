@@ -1755,12 +1755,19 @@ class YouTubeMP3App(ctk.CTk):
                     width=70
                 ).pack(side="left", padx=(0, 5))
 
-                # Przycisk do otwarcia folderu
+                # Przycisk do otwarcia folderu - cross-platform
                 def open_folder(folder=self.output_folder):
                     import os
                     import subprocess
+                    import platform
                     if os.path.exists(folder):
-                        subprocess.Popen(f'explorer "{os.path.normpath(folder)}"')
+                        system = platform.system()
+                        if system == "Windows":
+                            subprocess.Popen(f'explorer "{os.path.normpath(folder)}"')
+                        elif system == "Darwin":  # macOS
+                            subprocess.Popen(['open', folder])
+                        else:  # Linux
+                            subprocess.Popen(['xdg-open', folder])
 
                 folder_btn = CTkButton(
                     line_frame,

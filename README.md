@@ -31,11 +31,13 @@
 
 ## 📦 Instalacja
 
-### Opcja 1: Użyj gotowego EXE (ZALECANE)
+### 🪟 Windows
+
+#### Opcja 1: Użyj gotowego EXE (ZALECANE)
 1. Pobierz plik `YouTubeToMP3.exe` z [Releases](https://github.com/crahdlinuxservers-maker/YouTubeToMP3/releases)
 2. Uruchom - gotowe! 🎉
 
-### Opcja 2: Uruchom z kodu źródłowego
+#### Opcja 2: Uruchom z kodu źródłowego
 ```bash
 # Sklonuj repozytorium
 git clone https://github.com/crahdlinuxservers-maker/YouTubeToMP3.git
@@ -46,6 +48,69 @@ pip install -r requirements.txt
 
 # Uruchom aplikację
 python youtube_to_mp3.py
+```
+
+### 🐧 Linux
+
+#### Automatyczna instalacja (ZALECANE)
+```bash
+# Sklonuj repozytorium
+git clone https://github.com/crahdlinuxservers-maker/YouTubeToMP3.git
+cd YouTubeToMP3
+
+# Nadaj uprawnienia i uruchom instalator
+chmod +x install_linux.sh
+./install_linux.sh
+
+# Uruchom program
+chmod +x run_linux.sh
+./run_linux.sh
+```
+
+#### Ręczna instalacja
+```bash
+# Zainstaluj zależności systemowe
+# Ubuntu/Debian:
+sudo apt update
+sudo apt install python3 python3-pip python3-venv ffmpeg
+
+# Fedora/RHEL:
+sudo dnf install python3 python3-pip ffmpeg
+
+# Arch Linux:
+sudo pacman -S python python-pip ffmpeg
+
+# Sklonuj repozytorium
+git clone https://github.com/crahdlinuxservers-maker/YouTubeToMP3.git
+cd YouTubeToMP3
+
+# Utwórz środowisko wirtualne
+python3 -m venv .venv
+source .venv/bin/activate
+
+# Zainstaluj zależności Python
+pip install -r requirements.txt
+
+# Uruchom aplikację
+python3 youtube_to_mp3.py
+```
+
+### 🍎 macOS
+
+```bash
+# Zainstaluj Homebrew (jeśli nie masz)
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# Zainstaluj zależności
+brew install python3 ffmpeg
+
+# Sklonuj i uruchom (jak Linux)
+git clone https://github.com/crahdlinuxservers-maker/YouTubeToMP3.git
+cd YouTubeToMP3
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+python3 youtube_to_mp3.py
 ```
 
 ---
