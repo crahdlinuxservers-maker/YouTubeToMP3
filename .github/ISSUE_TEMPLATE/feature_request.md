@@ -1,34 +1,27 @@
 ---
-name: ✨ Propozycja funkcji
+name: ✨ Propozycja nowej funkcji
 about: Zaproponuj nową funkcję dla projektu
 title: '[FEATURE] '
 labels: enhancement
 assignees: ''
 ---
 
-## ✨ Propozycja funkcji
-Jasny i zwięzły opis funkcji.
+## ✨ Funkcja
+<!-- Jasny i zwięzły opis proponowanej funkcji -->
 
-## 🤔 Czy ta funkcja rozwiązuje problem?
-Jasny i zwięzły opis problemu. Np. "Zawsze jestem sfrustrowany gdy [...]"
+## 🎯 Problem do rozwiązania
+<!-- Czy ta funkcja rozwiązuje jakiś problem? Opisz go. -->
+<!-- Np. "Frustruje mnie gdy [...]" -->
 
-## 💡 Rozwiązanie
-Jasny i zwięzły opis rozwiązania.
+## 💡 Proponowane rozwiązanie
+<!-- Opisz jak chcesz aby ta funkcja działała -->
 
 ## 🔄 Alternatywy
-Jasny i zwięzły opis alternatywnych rozwiązań które rozważałeś.
+<!-- Opisz alternatywne rozwiązania które rozważałeś -->
 
-## 📋 Przykład użycia
-Jak użytkownik będzie korzystał z tej funkcji?
-```
-1. Użytkownik robi X
-2. Aplikacja robi Y
-3. Użytkownik otrzymuje Z
-```
+## 📸 Przykłady/mockupy
+<!-- Jeśli masz mockupy lub przykłady z innych aplikacji, dodaj je tutaj -->
 
-## 📝 Dodatkowy kontekst
-Dodaj wszelkie inne informacje lub zrzuty ekranu o propozycji funkcji.
-
-## 🎯 Priorytet
-Jak ważna jest ta funkcja? (Niski / Średni / Wysoki)
+## ℹ️ Dodatkowe informacje
+<!-- Wszelkie inne informacje które mogą pomóc -->
 

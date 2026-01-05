@@ -203,7 +203,7 @@ MIT License - szczegóły w pliku [LICENSE](LICENSE)
 ## 📧 Kontakt
 
 **Autor:** Stanisław Kozioł  
-**GitHub:** [https://github.com/crahdlinuxservers-maker](https://github.com/crahdlinuxservers-maker)
+**GitHub:** [TwojaNazwa](https://github.com/TwojaNazwa)
 
 ---
 

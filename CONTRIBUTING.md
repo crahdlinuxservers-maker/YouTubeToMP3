@@ -8,7 +8,7 @@ Dziękujemy za zainteresowanie współpracą! 🎉
 ```bash
 # Fork repozytorium na GitHubie
 # Następnie sklonuj swój fork:
-git clone https://github.com/TwojaNazwa/YouTubeToMP3.git
+git clone https://github.com/crahdlinuxservers-maker/YouTubeToMP3.git
 cd YouTubeToMP3
 ```
 
@@ -154,10 +154,12 @@ Jak użytkownik będzie z tego korzystał
 
 ## 📞 Kontakt
 
+**Autor:** Stanisław Kozioł  
+**GitHub:** [crahdlinuxservers-maker](https://github.com/crahdlinuxservers-maker)
+
 Pytania? Napisz:
-- **GitHub Issues** - dla błędów i propozycji
+- **[GitHub Issues](https://github.com/crahdlinuxservers-maker/YouTubeToMP3/issues)** - dla błędów i propozycji
 - **Pull Requests** - dla kodu
-- **Email** - dla innych spraw
 
 ---
 

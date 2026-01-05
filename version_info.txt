@@ -29,12 +29,12 @@ StringFileInfo(
     u'040904B0',
     [StringData(u'CompanyName', u'Stanisław Kozioł'),
     StringData(u'FileDescription', u'YouTube to MP3 Converter'),
-    StringData(u'FileVersion', u'1.0.0.0'),
+    StringData(u'FileVersion', u'2.0.0.0'),
     StringData(u'InternalName', u'YouTubeToMP3'),
-    StringData(u'LegalCopyright', u'2026 - Educational Project'),
+    StringData(u'LegalCopyright', u'2026 Stanisław Kozioł - MIT License'),
     StringData(u'OriginalFilename', u'YouTubeToMP3.exe'),
     StringData(u'ProductName', u'YouTube to MP3 Converter'),
-    StringData(u'ProductVersion', u'1.0.0.0'),
+    StringData(u'ProductVersion', u'2.0.0.0'),
     StringData(u'Author', u'Stanisław Kozioł')])
   ]),
 VarFileInfo([VarData(u'Translation', [1033, 1200])])

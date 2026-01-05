@@ -4,7 +4,7 @@
 
 ### Krok 1: Pobierz projekt
 ```bash
-git clone https://github.com/TwojaNazwa/YouTubeToMP3.git
+git clone https://github.com/crahdlinuxservers-maker/YouTubeToMP3.git
 cd YouTubeToMP3
 ```
 

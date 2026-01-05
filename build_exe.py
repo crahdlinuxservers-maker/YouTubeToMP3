@@ -3,6 +3,7 @@
 ║                    BUILDER - YouTube to MP3 Converter EXE                  ║
 ║                                                                             ║
 ║  Autor: Stanisław Kozioł                                                   ║
+║  GitHub: https://github.com/crahdlinuxservers-maker/YouTubeToMP3           ║
 ║  Opis: Skrypt do budowania profesjonalnego EXE dla Windows                 ║
 ║                                                                             ║
 ║  # HASH_EXE_BUILDER: Tworzenie przenośnego EXE                             ║

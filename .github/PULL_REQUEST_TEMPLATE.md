@@ -1,37 +1,25 @@
-# 🔀 Pull Request
-
-## 📝 Opis
-Opisz zmiany które wprowadzasz w tym PR.
-
-## 🎯 Typ zmian
-- [ ] 🐛 Bugfix (naprawa błędu)
-- [ ] ✨ Nowa funkcja
-- [ ] 🔧 Ulepszenie istniejącej funkcji
-- [ ] 📚 Dokumentacja
-- [ ] 🎨 Styl/formatowanie
-- [ ] ♻️ Refaktoryzacja
-- [ ] ⚡ Wydajność
-- [ ] ✅ Testy
-
-## 📋 Checklist
-- [ ] Kod jest zgodny z PEP 8
-- [ ] Dodałem komentarze w kodzie (gdzie potrzebne)
-- [ ] Dodałem/zaktualizowałem dokumentację
-- [ ] Zmiany nie generują nowych ostrzeżeń
-- [ ] Przetestowałem zmiany lokalnie
-- [ ] Kod działa poprawnie
+## 📝 Opis zmian
+<!-- Opisz co zmieniłeś i dlaczego -->
 
 ## 🔗 Powiązane Issue
-Rozwiązuje/Związane z: #(numer issue)
+<!-- Jeśli dotyczy: Closes #123 -->
 
-## 📸 Zrzuty ekranu (jeśli dotyczy)
-Dodaj zrzuty ekranu aby pokazać zmiany w UI.
+## 🧪 Jak przetestować
+<!-- Opisz jak przetestować Twoje zmiany -->
+1. 
+2. 
+3. 
 
-## 🧪 Jak przetestować?
-1. Krok 1
-2. Krok 2
-3. ...
+## ✅ Checklist
+- [ ] Kod działa poprawnie
+- [ ] Dodano komentarze w kodzie
+- [ ] Zaktualizowano dokumentację (jeśli potrzebne)
+- [ ] Przetestowano manualnie
+- [ ] Brak nowych ostrzeżeń/błędów
 
-## 📝 Dodatkowe uwagi
-Wszelkie dodatkowe informacje dla reviewera.
+## 🖼️ Zrzuty ekranu (jeśli dotyczy)
+<!-- Dodaj zrzuty ekranu przed/po zmianach -->
+
+## ℹ️ Dodatkowe informacje
+<!-- Wszelkie inne informacje -->
 
