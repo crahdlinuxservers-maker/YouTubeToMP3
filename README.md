@@ -32,13 +32,13 @@
 ## 📦 Instalacja
 
 ### Opcja 1: Użyj gotowego EXE (ZALECANE)
-1. Pobierz plik `YouTubeToMP3.exe` z [Releases](https://github.com/TwojaNazwa/YouTubeToMP3/releases)
+1. Pobierz plik `YouTubeToMP3.exe` z [Releases](https://github.com/crahdlinuxservers-maker/YouTubeToMP3/releases)
 2. Uruchom - gotowe! 🎉
 
 ### Opcja 2: Uruchom z kodu źródłowego
 ```bash
 # Sklonuj repozytorium
-git clone https://github.com/TwojaNazwa/YouTubeToMP3.git
+git clone https://github.com/crahdlinuxservers-maker/YouTubeToMP3.git
 cd YouTubeToMP3
 
 # Zainstaluj wymagane biblioteki
@@ -203,7 +203,7 @@ MIT License - szczegóły w pliku [LICENSE](LICENSE)
 ## 📧 Kontakt
 
 **Autor:** Stanisław Kozioł  
-**GitHub:** [TwojaNazwa](https://github.com/TwojaNazwa)
+**GitHub:** [crahdlinuxservers-maker](https://github.com/crahdlinuxservers-maker/YouTubeToMP3)
 
 ---
 
