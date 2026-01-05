@@ -1582,19 +1582,24 @@ class YouTubeMP3App(ctk.CTk):
         total_size_gb = stats['total_size_mb'] / 1024 if stats['total_size_mb'] > 1024 else stats['total_size_mb']
         size_unit = "GB" if stats['total_size_mb'] > 1024 else "MB"
 
-        stats_text = f"""╔════════════════════ SYSTEM STATISTICS ═══════════════════╗
-║                                                           ║
-║  📥 Total Downloads      : {stats['total_downloads']:>4} files                   ║
-║  💾 Storage Used         : {total_size_gb:>6.2f} {size_unit}                   ║
-║  🎵 Preferred Format     : {stats['favorite_format'].upper():>4}                       ║
-║  ⚡ Status               : OPERATIONAL                   ║
-║                                                           ║
-╚═══════════════════════════════════════════════════════════╝"""
+        # Wyrównanie do 4 cyfr
+        downloads_str = str(stats['total_downloads']).rjust(4)
+        size_str = f"{total_size_gb:.2f}".rjust(7)
+        format_str = stats['favorite_format'].upper().ljust(4)
+
+        stats_text = f"""╔══════════════════ SYSTEM STATISTICS ══════════════════╗
+║                                                        ║
+║  📥 Total Downloads    : {downloads_str} files              ║
+║  💾 Storage Used       : {size_str} {size_unit}              ║
+║  🎵 Preferred Format   : {format_str}                      ║
+║  ⚡ Status             : OPERATIONAL              ║
+║                                                        ║
+╚════════════════════════════════════════════════════════╝"""
 
         stats_label = CTkLabel(
             stats_frame,
             text=stats_text,
-            font=("Courier New", 10),
+            font=("Courier New", 9),
             text_color="#00ff00",
             justify="left"
         )
@@ -1627,16 +1632,23 @@ class YouTubeMP3App(ctk.CTk):
         history_scroll.pack(fill="both", expand=True, padx=15, pady=(0, 10))
 
         if history:
-            history_text = "╔═══╦═══════════════════════════════════════╦═══════╦══════╗\n"
-            history_text += "║ # ║ TITLE                                 ║ FORMAT║ SIZE ║\n"
-            history_text += "╠═══╬═══════════════════════════════════════╬═══════╬══════╣\n"
+            history_text = "╔═══╦════════════════════════════════════╦══════╦══════╗\n"
+            history_text += "║ # ║ TITLE                              ║FORMAT║ SIZE ║\n"
+            history_text += "╠═══╬════════════════════════════════════╬══════╬══════╣\n"
 
             for idx, (title, date, format_t, size) in enumerate(history, 1):
-                title_short = title[:37] + "..." if len(title) > 40 else title[:40]
-                size_mb = size / (1024*1024) if size else 0
-                history_text += f"║{idx:>2} ║ {title_short:<41} ║ {format_t.upper():>5} ║{size_mb:>5.1f}M║\n"
+                # Skróć tytuł do 36 znaków
+                if len(title) > 36:
+                    title_short = title[:33] + "..."
+                else:
+                    title_short = title.ljust(36)
 
-            history_text += "╚═══╩═══════════════════════════════════════╩═══════╩══════╝"
+                size_mb = size / (1024*1024) if size else 0
+                format_short = format_t.upper()[:4].ljust(4)
+
+                history_text += f"║{idx:>2} ║ {title_short:<36} ║ {format_short} ║{size_mb:>5.1f}M║\n"
+
+            history_text += "╚═══╩════════════════════════════════════╩══════╩══════╝"
 
             history_label = CTkLabel(
                 history_scroll,
