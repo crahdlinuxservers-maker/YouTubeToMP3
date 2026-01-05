@@ -1551,123 +1551,250 @@ class YouTubeMP3App(ctk.CTk):
         main_frame = CTkFrame(stats_window, fg_color=THEME_COLORS["primary"])
         main_frame.pack(fill="both", expand=True, padx=20, pady=20)
 
-        # ASCII Art Header - Statystyki
-        stats_art = """
-    ███████╗████████╗ █████╗ ████████╗███████╗
-    ██╔════╝╚══██╔══╝██╔══██╗╚══██╔══╝██╔════╝
-    ███████╗   ██║   ███████║   ██║   ███████╗
-    ╚════██║   ██║   ██╔══██║   ██║   ╚════██║
-    ███████║   ██║   ██║  ██║   ██║   ███████║
-    ╚══════╝   ╚═╝   ╚═╝  ╚═╝   ╚═╝   ╚══════╝
-        [ DOWNLOAD ANALYTICS & HISTORY LOG ]
-"""
+        # Nagłówek - ikona i tytuł
+        header_container = CTkFrame(main_frame, fg_color="transparent")
+        header_container.pack(fill="x", pady=(0, 15))
 
-        stats_art_label = CTkLabel(
-            main_frame,
-            text=stats_art,
-            font=("Courier New", 8, "bold"),
-            text_color="#00ff00",
-            justify="left"
+        icon_label = CTkLabel(
+            header_container,
+            text="📊",
+            font=("Helvetica", 32)
         )
-        stats_art_label.pack(pady=(0, 10), padx=10)
+        icon_label.pack(side="left", padx=(0, 10))
+
+        title_container = CTkFrame(header_container, fg_color="transparent")
+        title_container.pack(side="left", fill="both", expand=True)
+
+        title_label = CTkLabel(
+            title_container,
+            text="Statystyki i Historia",
+            font=("Helvetica", 16, "bold"),
+            text_color=THEME_COLORS["text_primary"],
+            anchor="w"
+        )
+        title_label.pack(anchor="w")
+
+        subtitle_label = CTkLabel(
+            title_container,
+            text="Analityka pobrań i historia konwersji",
+            font=("Helvetica", 9),
+            text_color=THEME_COLORS["text_secondary"],
+            anchor="w"
+        )
+        subtitle_label.pack(anchor="w")
 
         # Separator
-        separator1 = CTkFrame(main_frame, height=2, fg_color=THEME_COLORS["accent"])
+        separator1 = CTkFrame(main_frame, height=1, fg_color="#3a3a3a")
         separator1.pack(fill="x", pady=(0, 15))
 
-        # Statystyki w ramce hakerskiej
+        # Statystyki - eleganckie ramki
         stats_frame = CTkFrame(main_frame, fg_color=THEME_COLORS["secondary"], corner_radius=8)
-        stats_frame.pack(fill="x", pady=(0, 15))
+        stats_frame.pack(fill="x", pady=(0, 12))
+
+        stats_title = CTkLabel(
+            stats_frame,
+            text="📈 Statystyki systemowe",
+            font=("Helvetica", 11, "bold"),
+            text_color=THEME_COLORS["text_primary"]
+        )
+        stats_title.pack(anchor="w", padx=15, pady=(12, 8))
+
+        # Kontener dla statystyk - siatka
+        stats_grid = CTkFrame(stats_frame, fg_color="transparent")
+        stats_grid.pack(fill="x", padx=15, pady=(0, 12))
 
         total_size_gb = stats['total_size_mb'] / 1024 if stats['total_size_mb'] > 1024 else stats['total_size_mb']
         size_unit = "GB" if stats['total_size_mb'] > 1024 else "MB"
 
-        # Wyrównanie do 4 cyfr
-        downloads_str = str(stats['total_downloads']).rjust(4)
-        size_str = f"{total_size_gb:.2f}".rjust(7)
-        format_str = stats['favorite_format'].upper().ljust(4)
+        # Statystyka 1 - Pobrane pliki
+        stat1_frame = CTkFrame(stats_grid, fg_color=THEME_COLORS["bg_input"], corner_radius=6)
+        stat1_frame.pack(side="left", fill="both", expand=True, padx=(0, 5))
 
-        stats_text = f"""╔══════════════════ SYSTEM STATISTICS ══════════════════╗
-║                                                        ║
-║  📥 Total Downloads    : {downloads_str} files              ║
-║  💾 Storage Used       : {size_str} {size_unit}              ║
-║  🎵 Preferred Format   : {format_str}                      ║
-║  ⚡ Status             : OPERATIONAL              ║
-║                                                        ║
-╚════════════════════════════════════════════════════════╝"""
+        CTkLabel(
+            stat1_frame,
+            text="📥",
+            font=("Helvetica", 20)
+        ).pack(pady=(8, 0))
 
-        stats_label = CTkLabel(
-            stats_frame,
-            text=stats_text,
-            font=("Courier New", 9),
-            text_color="#00ff00",
-            justify="left"
-        )
-        stats_label.pack(padx=15, pady=12, anchor="w")
+        CTkLabel(
+            stat1_frame,
+            text=str(stats['total_downloads']),
+            font=("Helvetica", 18, "bold"),
+            text_color=THEME_COLORS["accent"]
+        ).pack()
+
+        CTkLabel(
+            stat1_frame,
+            text="Pobranych plików",
+            font=("Helvetica", 8),
+            text_color=THEME_COLORS["text_secondary"]
+        ).pack(pady=(0, 8))
+
+        # Statystyka 2 - Rozmiar
+        stat2_frame = CTkFrame(stats_grid, fg_color=THEME_COLORS["bg_input"], corner_radius=6)
+        stat2_frame.pack(side="left", fill="both", expand=True, padx=(5, 5))
+
+        CTkLabel(
+            stat2_frame,
+            text="💾",
+            font=("Helvetica", 20)
+        ).pack(pady=(8, 0))
+
+        CTkLabel(
+            stat2_frame,
+            text=f"{total_size_gb:.1f} {size_unit}",
+            font=("Helvetica", 18, "bold"),
+            text_color=THEME_COLORS["accent"]
+        ).pack()
+
+        CTkLabel(
+            stat2_frame,
+            text="Użyte miejsce",
+            font=("Helvetica", 8),
+            text_color=THEME_COLORS["text_secondary"]
+        ).pack(pady=(0, 8))
+
+        # Statystyka 3 - Format
+        stat3_frame = CTkFrame(stats_grid, fg_color=THEME_COLORS["bg_input"], corner_radius=6)
+        stat3_frame.pack(side="left", fill="both", expand=True, padx=(5, 0))
+
+        CTkLabel(
+            stat3_frame,
+            text="🎵",
+            font=("Helvetica", 20)
+        ).pack(pady=(8, 0))
+
+        CTkLabel(
+            stat3_frame,
+            text=stats['favorite_format'].upper(),
+            font=("Helvetica", 18, "bold"),
+            text_color=THEME_COLORS["accent"]
+        ).pack()
+
+        CTkLabel(
+            stat3_frame,
+            text="Ulubiony format",
+            font=("Helvetica", 8),
+            text_color=THEME_COLORS["text_secondary"]
+        ).pack(pady=(0, 8))
 
         # Separator
         separator2 = CTkFrame(main_frame, height=1, fg_color="#3a3a3a")
-        separator2.pack(fill="x", pady=(0, 15))
+        separator2.pack(fill="x", pady=(0, 12))
 
-        # Historia pobrań
+        # Historia pobrań - elegancka lista
         history_frame = CTkFrame(main_frame, fg_color=THEME_COLORS["secondary"], corner_radius=8)
-        history_frame.pack(fill="both", expand=True, pady=(0, 15))
+        history_frame.pack(fill="both", expand=True, pady=(0, 12))
 
         # Nagłówek historii
         history_header = CTkLabel(
             history_frame,
-            text="📋 DOWNLOAD HISTORY LOG",
-            font=("Courier New", 11, "bold"),
-            text_color="#ffff00"
+            text="🕐 Ostatnie pobrania",
+            font=("Helvetica", 11, "bold"),
+            text_color=THEME_COLORS["text_primary"]
         )
-        history_header.pack(pady=(10, 5))
+        history_header.pack(anchor="w", padx=15, pady=(12, 8))
 
-        # Scrollable historia
+        # Scrollable lista historii
         history_scroll = ctk.CTkScrollableFrame(
             history_frame,
-            fg_color="#0a0a0a",
+            fg_color=THEME_COLORS["bg_input"],
             corner_radius=6,
-            height=250
+            height=280
         )
-        history_scroll.pack(fill="both", expand=True, padx=15, pady=(0, 10))
+        history_scroll.pack(fill="both", expand=True, padx=15, pady=(0, 12))
 
         if history:
-            history_text = "╔═══╦════════════════════════════════════╦══════╦══════╗\n"
-            history_text += "║ # ║ TITLE                              ║FORMAT║ SIZE ║\n"
-            history_text += "╠═══╬════════════════════════════════════╬══════╬══════╣\n"
-
             for idx, (title, date, format_t, size) in enumerate(history, 1):
-                # Skróć tytuł do 36 znaków
-                if len(title) > 36:
-                    title_short = title[:33] + "..."
-                else:
-                    title_short = title.ljust(36)
+                # Item frame - wszystko w jednej linii
+                item_frame = CTkFrame(history_scroll, fg_color=THEME_COLORS["secondary"], corner_radius=6)
+                item_frame.pack(fill="x", pady=2, padx=5)
+
+                # Kontener - jedna linia z wszystkim
+                line_frame = CTkFrame(item_frame, fg_color="transparent")
+                line_frame.pack(fill="x", padx=10, pady=8)
+
+                # Numer
+                CTkLabel(
+                    line_frame,
+                    text=f"{idx}.",
+                    font=("Helvetica", 12, "bold"),
+                    text_color=THEME_COLORS["accent"],
+                    width=25
+                ).pack(side="left", padx=(0, 5))
+
+                # Tytuł - zajmuje większość miejsca
+                title_display = title[:40] + "..." if len(title) > 40 else title
+                CTkLabel(
+                    line_frame,
+                    text=title_display,
+                    font=("Helvetica", 12),
+                    text_color=THEME_COLORS["text_primary"],
+                    anchor="w"
+                ).pack(side="left", fill="x", expand=True, padx=(0, 10))
 
                 size_mb = size / (1024*1024) if size else 0
-                format_short = format_t.upper()[:4].ljust(4)
 
-                history_text += f"║{idx:>2} ║ {title_short:<36} ║ {format_short} ║{size_mb:>5.1f}M║\n"
+                # Format - kompaktowo
+                CTkLabel(
+                    line_frame,
+                    text=format_t.upper(),
+                    font=("Helvetica", 12, "bold"),
+                    text_color=THEME_COLORS["accent"],
+                    width=50
+                ).pack(side="left", padx=(0, 10))
 
-            history_text += "╚═══╩════════════════════════════════════╩══════╩══════╝"
+                # Rozmiar - kompaktowo
+                CTkLabel(
+                    line_frame,
+                    text=f"{size_mb:.1f} MB",
+                    font=("Helvetica", 12),
+                    text_color=THEME_COLORS["text_secondary"],
+                    width=70
+                ).pack(side="left", padx=(0, 5))
 
-            history_label = CTkLabel(
-                history_scroll,
-                text=history_text,
-                font=("Courier New", 9),
-                text_color="#00ff00",
-                justify="left",
-                anchor="w"
-            )
-            history_label.pack(padx=5, pady=5, anchor="w")
+                # Przycisk do otwarcia folderu
+                def open_folder(folder=self.output_folder):
+                    import os
+                    import subprocess
+                    if os.path.exists(folder):
+                        subprocess.Popen(f'explorer "{os.path.normpath(folder)}"')
+
+                folder_btn = CTkButton(
+                    line_frame,
+                    text="📁",
+                    command=open_folder,
+                    width=30,
+                    height=24,
+                    font=("Helvetica", 14),
+                    fg_color=THEME_COLORS["bg_input"],
+                    hover_color=THEME_COLORS["accent"],
+                    corner_radius=4
+                )
+                folder_btn.pack(side="left")
         else:
-            no_history = CTkLabel(
-                history_scroll,
-                text=">>> [SYSTEM] No download records found in database\n>>> [INFO] Start downloading to populate history",
-                font=("Courier New", 10),
-                text_color="#666666",
-                justify="left"
-            )
-            no_history.pack(padx=10, pady=40)
+            no_history_frame = CTkFrame(history_scroll, fg_color="transparent")
+            no_history_frame.pack(fill="both", expand=True, pady=60)
+
+            CTkLabel(
+                no_history_frame,
+                text="📭",
+                font=("Helvetica", 40)
+            ).pack(pady=(0, 10))
+
+            CTkLabel(
+                no_history_frame,
+                text="Brak historii pobrań",
+                font=("Helvetica", 12, "bold"),
+                text_color=THEME_COLORS["text_secondary"]
+            ).pack()
+
+            CTkLabel(
+                no_history_frame,
+                text="Pobierz pierwsze pliki aby zobaczyć statystyki",
+                font=("Helvetica", 9),
+                text_color=THEME_COLORS["text_secondary"]
+            ).pack(pady=(5, 0))
 
         # Przyciski na dole
         buttons_frame = CTkFrame(main_frame, fg_color="transparent")
@@ -1682,13 +1809,13 @@ class YouTubeMP3App(ctk.CTk):
 
         btn_clear = CTkButton(
             buttons_frame,
-            text="🗑️ [ CLEAR DATABASE ]",
+            text="🗑️ Wyczyść historię",
             command=clear_hist,
             height=32,
-            font=("Courier New", 10, "bold"),
-            fg_color="#661111",
-            hover_color="#882222",
-            text_color="#ff4444",
+            font=("Helvetica", 10, "bold"),
+            fg_color=THEME_COLORS["secondary"],
+            hover_color=THEME_COLORS["bg_input"],
+            text_color=THEME_COLORS["text_primary"],
             corner_radius=6
         )
         btn_clear.pack(side="left", fill="both", expand=True, padx=(0, 5))
@@ -1696,10 +1823,10 @@ class YouTubeMP3App(ctk.CTk):
         # Przycisk zamknięcia
         btn_close = CTkButton(
             buttons_frame,
-            text="✓ [ CLOSE ]",
+            text="✓ Zamknij",
             command=stats_window.destroy,
             height=32,
-            font=("Courier New", 10, "bold"),
+            font=("Helvetica", 10, "bold"),
             fg_color=THEME_COLORS["accent"],
             hover_color=THEME_COLORS["hover"],
             text_color=THEME_COLORS["text_primary"],
