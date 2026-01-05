@@ -1527,81 +1527,177 @@ class YouTubeMP3App(ctk.CTk):
 
     def show_statistics(self):
         """
-        # KOMENTARZ PL: Wyświetla statystyki pobrań
+        # KOMENTARZ PL: Wyświetla statystyki pobrań w stylu Matrix/Hacker
         # HASH_STATISTICS: Historia i analityka
         """
         stats = self.download_history.get_statistics()
-        history = self.download_history.get_history(limit=5)
+        history = self.download_history.get_history(limit=10)
 
-        # Stwórz okno statystyk
+        # Stwórz okno statystyk - styl Matrix
         stats_window = ctk.CTkToplevel(self)
-        stats_window.title("📊 Statystyki Pobrań")
-        stats_window.geometry("400x300")
+        stats_window.title("📊 Statystyki i Historia")
+        stats_window.geometry("740x680")
         stats_window.resizable(False, False)
+        stats_window.attributes('-topmost', True)  # Zawsze na wierzchu
+        stats_window.attributes('-alpha', 0.96)    # Przezroczystość 96%
 
-        # Tytuł
-        title_label = CTkLabel(
-            stats_window,
-            text="📊 Statystyki Pobrań",
-            font=("Helvetica", 14, "bold"),
-            text_color=THEME_COLORS["text_primary"]
-        )
-        title_label.pack(pady=10)
+        # Wyśrodkuj okno
+        stats_window.update_idletasks()
+        x = (stats_window.winfo_screenwidth() // 2) - (740 // 2)
+        y = (stats_window.winfo_screenheight() // 2) - (680 // 2)
+        stats_window.geometry(f"740x680+{x}+{y}")
 
-        # Główna rama
-        content_frame = CTkFrame(stats_window, fg_color=THEME_COLORS["secondary"], corner_radius=8)
-        content_frame.pack(fill="both", expand=True, padx=10, pady=10)
+        # Główny kontener
+        main_frame = CTkFrame(stats_window, fg_color=THEME_COLORS["primary"])
+        main_frame.pack(fill="both", expand=True, padx=20, pady=20)
 
-        # Statystyki
-        stats_text = f"""
-📥 Łączne pobrani: {stats['total_downloads']}
-💾 Całkowity rozmiar: {stats['total_size_mb']} MB
-🎵 Ulubiony format: {stats['favorite_format'].upper()}
-        """
+        # ASCII Art Header - Statystyki
+        stats_art = """
+    ███████╗████████╗ █████╗ ████████╗███████╗
+    ██╔════╝╚══██╔══╝██╔══██╗╚══██╔══╝██╔════╝
+    ███████╗   ██║   ███████║   ██║   ███████╗
+    ╚════██║   ██║   ██╔══██║   ██║   ╚════██║
+    ███████║   ██║   ██║  ██║   ██║   ███████║
+    ╚══════╝   ╚═╝   ╚═╝  ╚═╝   ╚═╝   ╚══════╝
+        [ DOWNLOAD ANALYTICS & HISTORY LOG ]
+"""
 
-        stats_label = CTkLabel(
-            content_frame,
-            text=stats_text.strip(),
-            font=("Helvetica", 12),
-            text_color=THEME_COLORS["text_primary"],
+        stats_art_label = CTkLabel(
+            main_frame,
+            text=stats_art,
+            font=("Courier New", 8, "bold"),
+            text_color="#00ff00",
             justify="left"
         )
-        stats_label.pack(anchor="w", padx=15, pady=15)
+        stats_art_label.pack(pady=(0, 10), padx=10)
 
-        # Historia
+        # Separator
+        separator1 = CTkFrame(main_frame, height=2, fg_color=THEME_COLORS["accent"])
+        separator1.pack(fill="x", pady=(0, 15))
+
+        # Statystyki w ramce hakerskiej
+        stats_frame = CTkFrame(main_frame, fg_color=THEME_COLORS["secondary"], corner_radius=8)
+        stats_frame.pack(fill="x", pady=(0, 15))
+
+        total_size_gb = stats['total_size_mb'] / 1024 if stats['total_size_mb'] > 1024 else stats['total_size_mb']
+        size_unit = "GB" if stats['total_size_mb'] > 1024 else "MB"
+
+        stats_text = f"""╔════════════════════ SYSTEM STATISTICS ═══════════════════╗
+║                                                           ║
+║  📥 Total Downloads      : {stats['total_downloads']:>4} files                   ║
+║  💾 Storage Used         : {total_size_gb:>6.2f} {size_unit}                   ║
+║  🎵 Preferred Format     : {stats['favorite_format'].upper():>4}                       ║
+║  ⚡ Status               : OPERATIONAL                   ║
+║                                                           ║
+╚═══════════════════════════════════════════════════════════╝"""
+
+        stats_label = CTkLabel(
+            stats_frame,
+            text=stats_text,
+            font=("Courier New", 10),
+            text_color="#00ff00",
+            justify="left"
+        )
+        stats_label.pack(padx=15, pady=12, anchor="w")
+
+        # Separator
+        separator2 = CTkFrame(main_frame, height=1, fg_color="#3a3a3a")
+        separator2.pack(fill="x", pady=(0, 15))
+
+        # Historia pobrań
+        history_frame = CTkFrame(main_frame, fg_color=THEME_COLORS["secondary"], corner_radius=8)
+        history_frame.pack(fill="both", expand=True, pady=(0, 15))
+
+        # Nagłówek historii
+        history_header = CTkLabel(
+            history_frame,
+            text="📋 DOWNLOAD HISTORY LOG",
+            font=("Courier New", 11, "bold"),
+            text_color="#ffff00"
+        )
+        history_header.pack(pady=(10, 5))
+
+        # Scrollable historia
+        history_scroll = ctk.CTkScrollableFrame(
+            history_frame,
+            fg_color="#0a0a0a",
+            corner_radius=6,
+            height=250
+        )
+        history_scroll.pack(fill="both", expand=True, padx=15, pady=(0, 10))
+
         if history:
-            history_text = "\n🕐 Ostatnie pobrania:\n"
-            for idx, (title, date, format_t, size) in enumerate(history[:3], 1):
-                history_text += f"{idx}. {title[:25]}... ({format_t})\n"
+            history_text = "╔═══╦═══════════════════════════════════════╦═══════╦══════╗\n"
+            history_text += "║ # ║ TITLE                                 ║ FORMAT║ SIZE ║\n"
+            history_text += "╠═══╬═══════════════════════════════════════╬═══════╬══════╣\n"
+
+            for idx, (title, date, format_t, size) in enumerate(history, 1):
+                title_short = title[:37] + "..." if len(title) > 40 else title[:40]
+                size_mb = size / (1024*1024) if size else 0
+                history_text += f"║{idx:>2} ║ {title_short:<41} ║ {format_t.upper():>5} ║{size_mb:>5.1f}M║\n"
+
+            history_text += "╚═══╩═══════════════════════════════════════╩═══════╩══════╝"
 
             history_label = CTkLabel(
-                content_frame,
+                history_scroll,
                 text=history_text,
-                font=("Helvetica", 12),
-                text_color=THEME_COLORS["text_secondary"],
+                font=("Courier New", 9),
+                text_color="#00ff00",
                 justify="left",
-                wraplength=350
+                anchor="w"
             )
-            history_label.pack(anchor="w", padx=15, pady=(0, 10))
+            history_label.pack(padx=5, pady=5, anchor="w")
+        else:
+            no_history = CTkLabel(
+                history_scroll,
+                text=">>> [SYSTEM] No download records found in database\n>>> [INFO] Start downloading to populate history",
+                font=("Courier New", 10),
+                text_color="#666666",
+                justify="left"
+            )
+            no_history.pack(padx=10, pady=40)
+
+        # Przyciski na dole
+        buttons_frame = CTkFrame(main_frame, fg_color="transparent")
+        buttons_frame.pack(fill="x", pady=(0, 0))
 
         # Przycisk czyszczenia
         def clear_hist():
-            self.download_history.clear_history()
-            messagebox.showinfo("✅ Sukces", "Historia czyszczona!")
-            stats_window.destroy()
+            if messagebox.askyesno("⚠️ Potwierdzenie", "Czy na pewno wyczyścić całą historię?"):
+                self.download_history.clear_history()
+                messagebox.showinfo("✅ Sukces", "Historia została wyczyszczona!")
+                stats_window.destroy()
 
         btn_clear = CTkButton(
-            content_frame,
-            text="🗑️ Wyczyść historię",
+            buttons_frame,
+            text="🗑️ [ CLEAR DATABASE ]",
             command=clear_hist,
-            height=26,
-            font=("Helvetica", 12, "bold"),
+            height=32,
+            font=("Courier New", 10, "bold"),
+            fg_color="#661111",
+            hover_color="#882222",
+            text_color="#ff4444",
+            corner_radius=6
+        )
+        btn_clear.pack(side="left", fill="both", expand=True, padx=(0, 5))
+
+        # Przycisk zamknięcia
+        btn_close = CTkButton(
+            buttons_frame,
+            text="✓ [ CLOSE ]",
+            command=stats_window.destroy,
+            height=32,
+            font=("Courier New", 10, "bold"),
             fg_color=THEME_COLORS["accent"],
             hover_color=THEME_COLORS["hover"],
             text_color=THEME_COLORS["text_primary"],
             corner_radius=6
         )
-        btn_clear.pack(pady=10)
+        btn_close.pack(side="left", fill="both", expand=True, padx=(5, 0))
+
+        # Skróty klawiszowe
+        stats_window.bind('<Escape>', lambda e: stats_window.destroy())
+        stats_window.bind('<Return>', lambda e: stats_window.destroy())
 
     def show_about(self):
         """
