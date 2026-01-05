@@ -1536,7 +1536,7 @@ class YouTubeMP3App(ctk.CTk):
         # Stwórz okno statystyk - styl Matrix
         stats_window = ctk.CTkToplevel(self)
         stats_window.title("📊 Statystyki i Historia")
-        stats_window.geometry("740x680")
+        stats_window.geometry("740x750")
         stats_window.resizable(False, False)
         stats_window.attributes('-topmost', True)  # Zawsze na wierzchu
         stats_window.attributes('-alpha', 0.96)    # Przezroczystość 96%
@@ -1544,8 +1544,8 @@ class YouTubeMP3App(ctk.CTk):
         # Wyśrodkuj okno
         stats_window.update_idletasks()
         x = (stats_window.winfo_screenwidth() // 2) - (740 // 2)
-        y = (stats_window.winfo_screenheight() // 2) - (680 // 2)
-        stats_window.geometry(f"740x680+{x}+{y}")
+        y = (stats_window.winfo_screenheight() // 2) - (750 // 2)
+        stats_window.geometry(f"740x750+{x}+{y}")
 
         # Główny kontener
         main_frame = CTkFrame(stats_window, fg_color=THEME_COLORS["primary"])
