@@ -1613,16 +1613,16 @@ class YouTubeMP3App(ctk.CTk):
         # Stwórz okno O autorze - większe dla ASCII art
         about_window = ctk.CTkToplevel(self)
         about_window.title("👤 O Programie i Autorze")
-        about_window.geometry("700x740")
+        about_window.geometry("740x740")
         about_window.resizable(False, False)
         about_window.attributes('-topmost', True)  # Zawsze na wierzchu
         about_window.attributes('-alpha', 0.96)    # Lekka przezroczystość
 
         # Wyśrodkuj okno
         about_window.update_idletasks()
-        x = (about_window.winfo_screenwidth() // 2) - (620 // 2)
-        y = (about_window.winfo_screenheight() // 2) - (680 // 2)
-        about_window.geometry(f"700x740+{x}+{y}")
+        x = (about_window.winfo_screenwidth() // 2) - (740 // 2)
+        y = (about_window.winfo_screenheight() // 2) - (740 // 2)
+        about_window.geometry(f"740x740+{x}+{y}")
 
         # Główny kontener z możliwością scrollowania
         main_frame = CTkFrame(about_window, fg_color=THEME_COLORS["primary"])
@@ -1954,84 +1954,119 @@ wielowątkowe przetwarzanie dla maksymalnej wydajności."""
         """
         logger.info(f"🎬 show_playlist_selector uruchomiony dla: {url[:50]}...")
 
-        # OTWÓRZ OKNO OD RAZU (przed pobraniem danych)
+        # OTWÓRZ OKNO OD RAZU (przed pobraniem danych) - styl jak "O autorze"
         selector_window = ctk.CTkToplevel(self)
         selector_window.title(f"📋 Ładowanie playlisty...")
-        selector_window.geometry("800x720")
-        selector_window.minsize(700, 500)
-        selector_window.resizable(True, True)
+        selector_window.geometry("900x750")
+        selector_window.resizable(False, False)
+        selector_window.attributes('-topmost', True)  # Zawsze na wierzchu
+        selector_window.attributes('-alpha', 0.96)    # Przezroczystość 96%
 
-        # Wycentruj okno
+        # Wyśrodkuj okno
+        selector_window.update_idletasks()
+        x = (selector_window.winfo_screenwidth() // 2) - (900 // 2)
+        y = (selector_window.winfo_screenheight() // 2) - (750 // 2)
+        selector_window.geometry(f"900x750+{x}+{y}")
+
         selector_window.transient(self)
         selector_window.grab_set()
 
-        # Frame główny
+        # Frame główny z efektem Matrix
         main_container = CTkFrame(selector_window, fg_color=THEME_COLORS["primary"])
         main_container.pack(fill="both", expand=True)
 
-        # Nagłówek
+        # ASCII Art Matrix Header
+        matrix_art = """
+    ███╗   ███╗ █████╗ ████████╗██████╗ ██╗██╗  ██╗
+    ████╗ ████║██╔══██╗╚══██╔══╝██╔══██╗██║╚██╗██╔╝
+    ██╔████╔██║███████║   ██║   ██████╔╝██║ ╚███╔╝ 
+    ██║╚██╔╝██║██╔══██║   ██║   ██╔══██╗██║ ██╔██╗ 
+    ██║ ╚═╝ ██║██║  ██║   ██║   ██║  ██║██║██╔╝ ██╗
+    ╚═╝     ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝╚═╝  ╚═╝
+        [ PLAYLIST EXTRACTOR v3.14 - NEURAL MODE ]
+"""
+
+        matrix_label = CTkLabel(
+            main_container,
+            text=matrix_art,
+            font=("Courier New", 8, "bold"),
+            text_color="#00ff00",
+            justify="left"
+        )
+        matrix_label.pack(pady=(10, 5), padx=10)
+
+        # Nagłówek - hakerski styl
         header = CTkLabel(
             main_container,
-            text="📋 LOADING PLAYLIST...",
-            font=("Courier New", 14, "bold"),
+            text="📋 >>> INITIALIZING QUANTUM DECODER <<<",
+            font=("Courier New", 16, "bold"),
             text_color="#00ff00"
         )
-        header.pack(pady=10, padx=10)
+        header.pack(pady=(5, 15), padx=10)
 
-        # Terminal (scrollable) - tutaj będą ładować się wideo
+        # Terminal (scrollable) - tutaj będą ładować się wideo - większy
         terminal_frame = ctk.CTkScrollableFrame(
             main_container,
             fg_color="#0a0a0a",
             corner_radius=8,
-            height=350
+            height=420
         )
-        terminal_frame.pack(fill="both", expand=True, padx=15, pady=(0, 10))
+        terminal_frame.pack(fill="both", expand=True, padx=20, pady=(0, 15))
 
-        # Label dla terminala
+        # Label dla terminala - większa czcionka z efektami
         terminal_output = CTkLabel(
             terminal_frame,
-            text=">>> Connecting to YouTube...\n>>> Fetching playlist data...",
-            font=("Courier New", 9),
+            text=""">>> [SYSTEM] Booting neural network...
+>>> [MATRIX] Loading encryption keys...
+>>> [CORE] Initializing quantum processors...
+>>> [NET] Establishing secure tunnel...
+>>> [STATUS] All systems GREEN ✓
+>>> [READY] Awaiting target coordinates...""",
+            font=("Courier New", 10),
             text_color="#00ff00",
             fg_color="transparent",
             justify="left",
             anchor="nw"
         )
-        terminal_output.pack(fill="both", expand=True)
+        terminal_output.pack(fill="both", expand=True, padx=5, pady=5)
 
-        # Pasek postępu
+        # Pasek postępu - większy
         progress_bar = CTkProgressBar(
             main_container,
-            height=16,
+            height=20,
             fg_color=THEME_COLORS["bg_input"],
             progress_color="#00ff00"
         )
-        progress_bar.pack(fill="x", padx=15, pady=(0, 10))
+        progress_bar.pack(fill="x", padx=20, pady=(0, 12))
         progress_bar.set(0)
 
-        # Status
+        # Status - większa czcionka
         status_label = CTkLabel(
             main_container,
-            text="⚡ Łączenie z YouTube API...",
-            font=("Courier New", 10),
+            text="⚡ [SYSTEM] Connecting to YouTube API...",
+            font=("Courier New", 11, "bold"),
             text_color="#ffff00"
         )
-        status_label.pack(pady=(0, 10))
+        status_label.pack(pady=(0, 12))
 
-        # Przycisk Anuluj (na początku)
+        # Przycisk Anuluj - większy i bardziej wyrazisty
         button_frame = CTkFrame(main_container, fg_color="transparent")
-        button_frame.pack(fill="x", padx=10, pady=(0, 10))
+        button_frame.pack(fill="x", padx=20, pady=(0, 15))
 
         cancel_btn = CTkButton(
             button_frame,
-            text="[ ESC ] Anuluj",
+            text="[ ESC ] ABORT MISSION",
             command=lambda: selector_window.destroy(),
-            height=28,
-            font=("Courier New", 9, "bold"),
-            fg_color="#501616",
-            hover_color="#602020"
+            height=35,
+            font=("Courier New", 11, "bold"),
+            fg_color="#661111",
+            hover_color="#882222",
+            text_color="#ff4444"
         )
-        cancel_btn.pack()
+        cancel_btn.pack(fill="x")
+
+        # Skrót ESC
+        selector_window.bind('<Escape>', lambda e: selector_window.destroy())
 
         # Zmienne współdzielone
         shared_data = {
@@ -2041,28 +2076,46 @@ wielowątkowe przetwarzanie dla maksymalnej wydajności."""
             'error': None
         }
 
-        # Funkcja do dodawania linii do terminala
+        # Funkcja do dodawania linii do terminala - większy bufor
         terminal_lines = []
         def add_terminal_line(line):
             terminal_lines.append(line)
-            if len(terminal_lines) > 30:
+            if len(terminal_lines) > 50:  # Zwiększony bufor z 30 do 50
                 terminal_lines.pop(0)
             selector_window.after(0, lambda: terminal_output.configure(text="\n".join(terminal_lines)))
 
-        # Wątek ładowania w tle
+        # Wątek ładowania w tle - hakerski styl Matrix
         def loading_thread():
             try:
                 import time
                 from yt_dlp import YoutubeDL
 
-                add_terminal_line(">>> SSL Handshake: OK")
+                add_terminal_line("╔════════════════════════════════════════════════╗")
+                add_terminal_line("║  MATRIX PROTOCOL v3.14 - PLAYLIST EXTRACTION  ║")
+                add_terminal_line("╚════════════════════════════════════════════════╝")
+                add_terminal_line("")
+                add_terminal_line(">>> [INIT] Booting AI neural network...")
+                add_terminal_line(">>> [CPU] Allocating 512MB memory buffer...")
+                add_terminal_line(">>> [GPU] Activating parallel processing cores...")
+                time.sleep(0.2)
+
+                add_terminal_line(">>> [NET] Establishing encrypted connection...")
+                add_terminal_line(">>> [SSL] Generating RSA-4096 keys...")
+                add_terminal_line(">>> [SSL] Handshake: SUCCESS ✓")
                 selector_window.after(0, lambda: progress_bar.set(0.1))
                 time.sleep(0.3)
 
-                add_terminal_line(">>> Authorization: GRANTED")
-                add_terminal_line(f">>> URL: {url[:50]}...")
+                add_terminal_line(">>> [AUTH] Requesting API access token...")
+                add_terminal_line(">>> [AUTH] Token received: ████████████████ ✓")
+                add_terminal_line(">>> [AUTH] YouTube API: AUTHORIZED ✓")
+                add_terminal_line("")
+                add_terminal_line(f">>> [TARGET] URL acquired")
+                add_terminal_line(f">>> [SCAN] {url[:65]}...")
+                add_terminal_line(">>> [DECODE] Parsing URL structure...")
+                add_terminal_line(">>> [STATUS] Initiating data extraction sequence...")
                 selector_window.after(0, lambda: progress_bar.set(0.2))
-                selector_window.after(0, lambda: status_label.configure(text="🔍 Parsowanie URL..."))
+                selector_window.after(0, lambda: status_label.configure(text="🔍 [PARSER] Decoding quantum data stream..."))
+                time.sleep(0.3)
 
                 # Pobierz listę
                 ydl_opts = {
@@ -2071,20 +2124,32 @@ wielowątkowe przetwarzanie dla maksymalnej wydajności."""
                     'extract_flat': 'in_playlist',
                 }
 
-                add_terminal_line(">>> Extracting playlist metadata...")
+                add_terminal_line("")
+                add_terminal_line(">>> [EXTRACT] Downloading playlist metadata...")
+                add_terminal_line(">>> [STREAM] Opening data channel...")
+                add_terminal_line(">>> [BUFFER] Receiving packet stream...")
+                add_terminal_line(">>> [PARSE] Decrypting JSON payload...")
                 selector_window.after(0, lambda: progress_bar.set(0.3))
+                time.sleep(0.2)
 
                 with YoutubeDL(ydl_opts) as ydl:
+                    add_terminal_line(">>> [DL] yt-dlp engine: ACTIVE ✓")
                     playlist_info = ydl.extract_info(url, download=False)
+                    add_terminal_line(">>> [DL] Data extraction: COMPLETE ✓")
 
                 selector_window.after(0, lambda: progress_bar.set(0.5))
+                add_terminal_line("")
+                add_terminal_line(">>> [VERIFY] Validating playlist format...")
 
                 # Sprawdź czy to playlista
                 if playlist_info.get('_type') != 'playlist':
                     entries = playlist_info.get('entries', [])
                     if not entries or len(entries) < 1:
-                        add_terminal_line(">>> ERROR: Not a playlist!")
-                        selector_window.after(0, lambda: status_label.configure(text="❌ To nie jest playlista!", text_color="#ff0000"))
+                        add_terminal_line(">>> [ERROR] ⚠️  Invalid playlist structure!")
+                        add_terminal_line(">>> [ERROR] Expected: playlist | Received: single video")
+                        add_terminal_line(">>> [ABORT] Mission terminated with code 404")
+                        add_terminal_line(">>> [EXIT] Closing connection...")
+                        selector_window.after(0, lambda: status_label.configure(text="❌ [FATAL] Not a valid playlist!", text_color="#ff0000"))
                         time.sleep(2)
                         selector_window.after(0, lambda: selector_window.destroy())
                         return
@@ -2092,41 +2157,81 @@ wielowątkowe przetwarzanie dla maksymalnej wydajności."""
                     entries = playlist_info.get('entries', [])
 
                 if not entries:
-                    add_terminal_line(">>> ERROR: Empty playlist!")
-                    selector_window.after(0, lambda: status_label.configure(text="❌ Playlista pusta!", text_color="#ff0000"))
+                    add_terminal_line(">>> [ERROR] ⚠️  Playlist buffer is empty!")
+                    add_terminal_line(">>> [ERROR] 0 entries found in data stream")
+                    add_terminal_line(">>> [ABORT] Cannot proceed with empty dataset")
+                    add_terminal_line(">>> [EXIT] Terminating connection...")
+                    selector_window.after(0, lambda: status_label.configure(text="❌ [FATAL] Zero entries detected!", text_color="#ff0000"))
                     time.sleep(2)
                     selector_window.after(0, lambda: selector_window.destroy())
                     return
 
                 total_videos = len(entries)
-                add_terminal_line(f">>> Videos found: {total_videos}")
-                add_terminal_line(f">>> Playlist: {playlist_info.get('title', 'Unknown')[:45]}")
-                selector_window.after(0, lambda t=total_videos: header.configure(text=f"📋 {playlist_info.get('title', 'Playlista')[:40]}"))
+                add_terminal_line("")
+                add_terminal_line("╔════════════════════════════════════════════════╗")
+                add_terminal_line(f"║  ✓ EXTRACTION SUCCESSFUL - {total_videos} ENTRIES FOUND  ║")
+                add_terminal_line("╚════════════════════════════════════════════════╝")
+                add_terminal_line("")
+                add_terminal_line(f">>> [DATA] Total video count: {total_videos}")
+                add_terminal_line(f">>> [META] Playlist title: {playlist_info.get('title', 'Unknown')[:45]}")
+                add_terminal_line(f">>> [META] Author: {playlist_info.get('uploader', 'Unknown')[:30]}")
+                add_terminal_line(">>> [CACHE] Building binary index tree...")
+                add_terminal_line(f">>> [MEMORY] Allocating {total_videos * 2}MB RAM...")
+                selector_window.after(0, lambda t=total_videos: header.configure(text=f"📋 >>> {playlist_info.get('title', 'PLAYLIST')[:35]} <<<"))
                 selector_window.after(0, lambda: progress_bar.set(0.6))
-                selector_window.after(0, lambda t=total_videos: status_label.configure(text=f"✅ Znaleziono {t} wideo!"))
+                selector_window.after(0, lambda t=total_videos: status_label.configure(text=f"✅ [SUCCESS] {t} videos decoded successfully!", text_color="#00ff00"))
+                time.sleep(0.3)
 
-                # Ładuj wideo z animacją
-                add_terminal_line(">>> Loading video list...")
+                # Ładuj wideo z animacją hakerską Matrix
+                add_terminal_line("")
+                add_terminal_line(">>> [RENDER] Compiling video matrix...")
+                add_terminal_line(">>> [GPU] Rendering visual interface...")
+                add_terminal_line(">>> [DISPLAY] Generating playlist grid...")
                 selector_window.after(0, lambda: progress_bar.set(0.7))
+                time.sleep(0.2)
 
-                # Pokazuj pierwsze kilka wideo
-                for i in range(min(10, total_videos)):
+                # Pokazuj pierwsze kilka wideo z efektem Matrix
+                add_terminal_line("")
+                add_terminal_line("    ╔══════════════ VIDEO INDEX ══════════════╗")
+                for i in range(min(12, total_videos)):
                     entry = entries[i]
                     title = entry.get('title', f'Video {i+1}')
-                    add_terminal_line(f"    [{i+1:03d}] {title[:50]}...")
-                    time.sleep(0.05)  # Szybka animacja
+                    duration = entry.get('duration', 0)
+                    # Konwertuj duration na int (może być float z API)
+                    if duration:
+                        duration = int(duration)
+                        dur_str = f"{duration//60}:{duration%60:02d}"
+                    else:
+                        dur_str = "LIVE"
+                    add_terminal_line(f"    ║ [{i+1:03d}] {title[:45]:<45} │ {dur_str}")
+                    time.sleep(0.04)  # Szybka animacja Matrix
 
-                if total_videos > 10:
-                    add_terminal_line(f"    ... and {total_videos - 10} more videos")
+                if total_videos > 12:
+                    add_terminal_line(f"    ║ ... {total_videos - 12} more entries in database")
+                add_terminal_line("    ╚══════════════════════════════════════════════╝")
+                add_terminal_line("")
 
                 selector_window.after(0, lambda: progress_bar.set(0.9))
-                add_terminal_line(">>> Building interactive list...")
+                add_terminal_line(">>> [AI] Neural network analysis: COMPLETE ✓")
+                add_terminal_line(">>> [BUILD] Compiling interactive GUI components...")
+                add_terminal_line(">>> [THREAD] Spawning UI render process...")
+                add_terminal_line(">>> [MATRIX] Initializing selection interface...")
                 time.sleep(0.3)
 
                 # Zapisz dane
                 shared_data['entries'] = entries
                 shared_data['playlist_info'] = playlist_info
                 shared_data['loading_complete'] = True
+
+                add_terminal_line("")
+                add_terminal_line("╔════════════════════════════════════════════════╗")
+                add_terminal_line("║     ✓✓✓ MISSION ACCOMPLISHED ✓✓✓              ║")
+                add_terminal_line("║  All systems operational - Standing by...     ║")
+                add_terminal_line("╚════════════════════════════════════════════════╝")
+                add_terminal_line("")
+                add_terminal_line(">>> [STATUS] Ready for user interaction ⚡")
+                add_terminal_line(">>> [AWAIT] Select videos to download...")
+                time.sleep(0.2)
 
                 # PRZEKSZTAŁĆ OKNO W SELEKTOR
                 selector_window.after(0, lambda: self.transform_to_selector(
@@ -2139,10 +2244,17 @@ wielowątkowe przetwarzanie dla maksymalnej wydajności."""
 
             except Exception as e:
                 logger.error(f"❌ Błąd ładowania: {str(e)}")
-                add_terminal_line(f">>> ERROR: {str(e)}")
-                selector_window.after(0, lambda: status_label.configure(text=f"❌ Błąd!", text_color="#ff0000"))
+                add_terminal_line("")
+                add_terminal_line("╔════════════════════════════════════════════════╗")
+                add_terminal_line("║  ⚠️  CRITICAL SYSTEM ERROR DETECTED  ⚠️        ║")
+                add_terminal_line("╚════════════════════════════════════════════════╝")
+                add_terminal_line(f">>> [ERROR] Exception: {str(e)[:50]}")
+                add_terminal_line(f">>> [TRACE] Stack trace logged to system")
+                add_terminal_line(f">>> [FAIL] Mission aborted - Code 500")
+                add_terminal_line(f">>> [EXIT] Shutting down neural network...")
+                selector_window.after(0, lambda: status_label.configure(text=f"❌ [FATAL] Critical failure!", text_color="#ff0000"))
                 selector_window.after(0, lambda: progress_bar.set(0))
-                time.sleep(2)
+                time.sleep(2.5)
                 selector_window.after(0, lambda: selector_window.destroy())
 
         # Uruchom wątek
