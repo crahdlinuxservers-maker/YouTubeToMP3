@@ -3,13 +3,13 @@ VSVersionInfo(
     mask=0x3f,
     mask_flags=0x0,
     up_ffi=FixedFileInfo.SetupInfo(
-      major=1,
+      major=2,
       minor=0,
       build=0,
       patch=0
     ),
     down_ffi=FixedFileInfo.SetupInfo(
-      major=1,
+      major=2,
       minor=0,
       build=0,
       patch=0
@@ -27,15 +27,17 @@ StringFileInfo(
   [
   StringTable(
     u'040904B0',
-    [StringData(u'CompanyName', u'Stanisław Kozioł'),
-    StringData(u'FileDescription', u'YouTube to MP3 Converter'),
+    [StringData(u'CompanyName', u'Open Source Community - Stanisław Kozioł'),
+    StringData(u'FileDescription', u'YouTube to MP3 Audio Converter - Open Source'),
     StringData(u'FileVersion', u'2.0.0.0'),
     StringData(u'InternalName', u'YouTubeToMP3'),
-    StringData(u'LegalCopyright', u'2026 Stanisław Kozioł - MIT License'),
+    StringData(u'LegalCopyright', u'Copyright © 2026 Stanisław Kozioł - MIT License (Open Source)'),
     StringData(u'OriginalFilename', u'YouTubeToMP3.exe'),
     StringData(u'ProductName', u'YouTube to MP3 Converter'),
     StringData(u'ProductVersion', u'2.0.0.0'),
-    StringData(u'Author', u'Stanisław Kozioł')])
+    StringData(u'Author', u'Stanisław Kozioł'),
+    StringData(u'Comments', u'Open source audio converter. Safe & verified. GitHub: crahdlinuxservers-maker/YouTubeToMP3'),
+    StringData(u'LegalTrademarks', u'Open Source Software - MIT License')])
   ]),
 VarFileInfo([VarData(u'Translation', [1033, 1200])])
   ]

@@ -27,6 +27,7 @@ BUILD_DIR = PROJECT_DIR / "build"
 SPEC_DIR = PROJECT_DIR
 
 # HASH_PYINSTALLER_CONFIG: Konfiguracja PyInstallera
+# Opcje które redukują fałszywe alarmy antywirusowe:
 PYINSTALLER_ARGS = [
     # Główny plik
     str(MAIN_FILE),
@@ -40,9 +41,12 @@ PYINSTALLER_ARGS = [
     "--onefile",
     "--noconsole",
 
-    # Optymalizacja
+    # Optymalizacja (pomaga w detekcji)
     "--optimize=2",
     "--strip",
+
+    # UPX compression OFF - often triggers antivirus
+    "--noupx",
 
     # Ikona (opcjonalnie)
     f'--icon={PROJECT_DIR / "logo.png"}' if (PROJECT_DIR / "logo.png").exists() else "",
@@ -50,13 +54,15 @@ PYINSTALLER_ARGS = [
     # Nazwa
     '--name=YouTubeToMP3',
 
-    # Metadata
-    '--version-file=' + str(PROJECT_DIR / "version.txt") if (PROJECT_DIR / "version.txt").exists() else "",
+    # Metadata (ważne dla Windows!)
+    '--version-file=' + str(PROJECT_DIR / "version_info.txt") if (PROJECT_DIR / "version_info.txt").exists() else "",
 
     # Hidden imports
     '--hidden-import=customtkinter',
     '--hidden-import=yt_dlp',
     '--hidden-import=PIL',
+    '--hidden-import=mutagen',
+    '--hidden-import=requests',
 
     # Dodatkowe pliki
     '--collect-all=customtkinter',
