@@ -272,6 +272,69 @@ MIT License - szczegóły w pliku [LICENSE](LICENSE)
 
 ---
 
+## 🐧 Quick Start - Linux
+
+### Ubuntu/Debian (szybki start)
+```bash
+# Jeden skrypt robi wszystko
+git clone https://github.com/crahdlinuxservers-maker/YouTubeToMP3.git
+cd YouTubeToMP3
+chmod +x install_linux.sh run_linux.sh
+./install_linux.sh
+./run_linux.sh
+```
+
+### Fedora/RHEL (szybki start)
+```bash
+git clone https://github.com/crahdlinuxservers-maker/YouTubeToMP3.git
+cd YouTubeToMP3
+chmod +x install_linux.sh run_linux.sh
+./install_linux.sh
+./run_linux.sh
+```
+
+### Arch Linux (szybki start)
+```bash
+git clone https://github.com/crahdlinuxservers-maker/YouTubeToMP3.git
+cd YouTubeToMP3
+chmod +x install_linux.sh run_linux.sh
+./install_linux.sh
+./run_linux.sh
+```
+
+### Rozwiązywanie problemów (Linux)
+
+**Problem: Brak python3-tkinter**
+```bash
+# Ubuntu/Debian
+sudo apt install python3-tk
+
+# Fedora
+sudo dnf install python3-tkinter
+
+# Arch
+sudo pacman -S tk
+```
+
+**Problem: Brak FFmpeg**
+```bash
+# Ubuntu/Debian
+sudo apt install ffmpeg
+
+# Fedora
+sudo dnf install ffmpeg
+
+# Arch
+sudo pacman -S ffmpeg
+```
+
+**Problem: Błąd uprawnień**
+```bash
+chmod +x install_linux.sh run_linux.sh
+```
+
+---
+
 ## ⭐ Podziękowania
 
 - **yt-dlp** - za świetną bibliotekę do pobierania z YouTube
@@ -280,5 +343,5 @@ MIT License - szczegóły w pliku [LICENSE](LICENSE)
 
 ---
 
-**Made with ❤️ in Python**
+**Made with ❤️ in Python | Works on 🪟 Windows, 🐧 Linux, 🍎 macOS**
 
