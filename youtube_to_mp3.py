@@ -876,6 +876,23 @@ class YouTubeMP3App(ctk.CTk):
         )
         subtitle_label.pack(pady=(0, 2))
 
+        # Ikona "Statystyki" (po prawej, obok "O autorze")
+        stats_btn = CTkButton(
+            header_content,
+            text="📊",
+            command=self.show_statistics,
+            height=35,
+            width=35,
+            font=("Helvetica", 16),
+            fg_color="#4a9eff",
+            hover_color="#5cafff",
+            text_color=THEME_COLORS["text_primary"],
+            corner_radius=8,
+            border_width=0
+        )
+        stats_btn.pack(side="right", padx=(0, 8), pady=4)
+        ToolTip(stats_btn, "Statystyki i historia pobrań")
+
         # Ikona "O autorze" (po prawej)
         author_btn = CTkButton(
             header_content,
@@ -1247,21 +1264,6 @@ class YouTubeMP3App(ctk.CTk):
         self.format_selector.configure(command=self.on_format_change)
         ToolTip(self.format_selector, "Wybierz format pliku audio\nMP3 = najbardziej kompatybilny")
 
-        # Przycisk statystyk
-        self.btn_stats = CTkButton(
-            format_selector_frame,
-            text="📊",
-            command=self.show_statistics,
-            height=24,
-            font=("Helvetica", 12, "bold"),
-            fg_color=THEME_COLORS["warning"],
-            hover_color="#ffb84d",
-            text_color=THEME_COLORS["primary"],
-            corner_radius=6,
-            width=35
-        )
-        self.btn_stats.pack(side="left", padx=(4, 0))
-        ToolTip(self.btn_stats, "Wyświetl statystyki i historię pobrań")
 
 
         # ═══════════════════════════════════════════════════════════════════
