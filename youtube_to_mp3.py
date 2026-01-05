@@ -1649,9 +1649,10 @@ class YouTubeMP3App(ctk.CTk):
             total_pages = (total_videos + ITEMS_PER_PAGE - 1) // ITEMS_PER_PAGE
             current_page = [0]  # Używamy listy aby można było zmienić wartość w nested function
 
-            # Lista checkboxów (wszystkie)
+            # Lista checkboxów dla aktualnie renderowanych wideo
             checkbox_vars = []
-            selected_videos = []
+            # Słownik przechowujący wszystkie wybory (klucz: indeks wideo, wartość: dane wideo)
+            all_selected_videos = {}
 
             # Frame dla stron
             page_frame = CTkFrame(selector_window, fg_color="transparent")
@@ -1670,7 +1671,8 @@ class YouTubeMP3App(ctk.CTk):
             scroll_frame = ctk.CTkScrollableFrame(
                 page_frame,
                 fg_color=THEME_COLORS["secondary"],
-                corner_radius=8
+                corner_radius=8,
+                height=350
             )
             scroll_frame.pack(fill="both", expand=True, pady=(0, 10))
 
@@ -1680,6 +1682,8 @@ class YouTubeMP3App(ctk.CTk):
                 for widget in scroll_frame.winfo_children():
                     widget.destroy()
 
+                checkbox_vars.clear()
+
                 # Oblicz range
                 start_idx = page_idx * ITEMS_PER_PAGE
                 end_idx = min(start_idx + ITEMS_PER_PAGE, total_videos)
@@ -1687,14 +1691,15 @@ class YouTubeMP3App(ctk.CTk):
                 logger.info(f"📄 Renderowanie strona {page_idx + 1}: wideo {start_idx + 1} do {end_idx}")
 
                 # Renderuj wideo na tej stronie
-                for i, entry in enumerate(entries[start_idx:end_idx], start_idx + 1):
+                for i in range(start_idx, end_idx):
+                    entry = entries[i]
                     if not entry:
                         continue
 
                     try:
-                        title = entry.get('title', f'Video {i}')
+                        title = entry.get('title', f'Video {i + 1}')
                         if not title:
-                            title = f'Video {i}'
+                            title = f'Video {i + 1}'
 
                         duration = entry.get('duration', 0)
                         if duration is None:
@@ -1709,9 +1714,12 @@ class YouTubeMP3App(ctk.CTk):
                         video_frame = CTkFrame(scroll_frame, fg_color=THEME_COLORS["bg_input"], corner_radius=4)
                         video_frame.pack(fill="x", pady=2, padx=3, expand=False)
 
+                        # Sprawdź czy to wideo było już zaznaczone (domyślnie FALSE - odznaczone)
+                        is_checked = all_selected_videos.get(i, {}).get('checked', False)
+
                         # Checkbox variable
-                        var = ctk.BooleanVar(value=True)
-                        checkbox_vars.append(var)
+                        var = ctk.BooleanVar(value=is_checked)
+                        checkbox_vars.append((i, var))
 
                         # Checkbox z tytułem
                         if duration and duration > 0:
@@ -1719,12 +1727,17 @@ class YouTubeMP3App(ctk.CTk):
                         else:
                             duration_str = "?"
 
-                        checkbox_text = f"{i}. {title[:40]}{'...' if len(title) > 40 else ''} ({duration_str})"
+                        checkbox_text = f"{i + 1}. {title[:40]}{'...' if len(title) > 40 else ''} ({duration_str})"
+
+                        # Funkcja do zapisywania stanu checkboxa
+                        def save_checkbox_state(idx=i, v=var):
+                            all_selected_videos[idx]['checked'] = v.get()
 
                         checkbox = ctk.CTkCheckBox(
                             video_frame,
                             text=checkbox_text,
                             variable=var,
+                            command=lambda idx=i, v=var: save_checkbox_state(idx, v),
                             font=("Helvetica", 8),
                             fg_color=THEME_COLORS["accent"],
                             hover_color=THEME_COLORS["hover"],
@@ -1734,21 +1747,23 @@ class YouTubeMP3App(ctk.CTk):
                         )
                         checkbox.pack(anchor="w", padx=6, pady=4)
 
-                        # Zapisz dane wideo
-                        video_url = entry.get('url')
-                        if not video_url:
-                            video_id = entry.get('id', '')
-                            if video_id:
-                                video_url = f"https://www.youtube.com/watch?v={video_id}"
-                            else:
-                                video_url = ""
+                        # Zapisz dane wideo jeśli jeszcze nie istnieją
+                        if i not in all_selected_videos:
+                            video_url = entry.get('url')
+                            if not video_url:
+                                video_id = entry.get('id', '')
+                                if video_id:
+                                    video_url = f"https://www.youtube.com/watch?v={video_id}"
+                                else:
+                                    video_url = ""
 
-                        selected_videos.append({
-                            'var': var,
-                            'entry': entry,
-                            'title': title,
-                            'url': video_url
-                        })
+                            all_selected_videos[i] = {
+                                'var': var,
+                                'entry': entry,
+                                'title': title,
+                                'url': video_url,
+                                'checked': is_checked
+                            }
 
                     except Exception as e:
                         logger.error(f"⚠️ Błąd dodawania wideo {i}: {str(e)}")
@@ -1766,22 +1781,12 @@ class YouTubeMP3App(ctk.CTk):
             nav_frame = CTkFrame(selector_window, fg_color="transparent")
             nav_frame.pack(fill="x", padx=10, pady=5)
 
-            def prev_page():
-                if current_page[0] > 0:
-                    current_page[0] -= 1
-                    render_page(current_page[0])
-                    logger.info(f"⬅️ Poprzednia strona: {current_page[0] + 1}")
-
-            def next_page():
-                if current_page[0] < total_pages - 1:
-                    current_page[0] += 1
-                    render_page(current_page[0])
-                    logger.info(f"➡️ Następna strona: {current_page[0] + 1}")
+            # Funkcje nawigacji (będą zdefiniowane dalej)
 
             btn_prev = CTkButton(
                 nav_frame,
                 text="⬅️ Poprzednia",
-                command=prev_page,
+                command=lambda: None,  # Zostanie nadpisana
                 height=26,
                 font=("Helvetica", 9, "bold"),
                 fg_color="#555555",
@@ -1801,16 +1806,97 @@ class YouTubeMP3App(ctk.CTk):
             btn_next = CTkButton(
                 nav_frame,
                 text="Następna ➡️",
-                command=next_page,
+                command=lambda: None,  # Zostanie nadpisana
                 height=26,
                 font=("Helvetica", 9, "bold"),
                 fg_color="#555555",
                 hover_color="#666666",
                 state="disabled" if total_pages <= 1 else "normal"
             )
-            btn_next.pack(side="left", padx=5, expand=True, fill="x")                except Exception as e:
-                    logger.error(f"⚠️ Błąd dodawania wideo {idx}: {str(e)}")
-                    continue
+            btn_next.pack(side="left", padx=5, expand=True, fill="x")
+
+            # Funkcja aktualizacji przycisków nawigacji
+            def update_nav_buttons():
+                """Aktualizuje stan przycisków nawigacji"""
+                if current_page[0] <= 0:
+                    btn_prev.configure(state="disabled")
+                else:
+                    btn_prev.configure(state="normal")
+
+                if current_page[0] >= total_pages - 1:
+                    btn_next.configure(state="disabled")
+                else:
+                    btn_next.configure(state="normal")
+
+                page_counter.configure(text=f"{current_page[0] + 1} / {total_pages}")
+
+            # Nadpisz funkcje nawigacji z aktualizacją przycisków
+            def prev_page_updated():
+                if current_page[0] > 0:
+                    current_page[0] -= 1
+                    render_page(current_page[0])
+                    update_nav_buttons()
+                    logger.info(f"⬅️ Poprzednia strona: {current_page[0] + 1}")
+
+            def next_page_updated():
+                if current_page[0] < total_pages - 1:
+                    current_page[0] += 1
+                    render_page(current_page[0])
+                    update_nav_buttons()
+                    logger.info(f"➡️ Następna strona: {current_page[0] + 1}")
+
+            # Zaktualizuj komendy przycisków
+            btn_prev.configure(command=prev_page_updated)
+            btn_next.configure(command=next_page_updated)
+            update_nav_buttons()
+
+            # Frame z przyciskami zaznaczania
+            select_frame = CTkFrame(selector_window, fg_color="transparent")
+            select_frame.pack(fill="x", padx=10, pady=(5, 0))
+
+            def select_all():
+                """Zaznacza wszystkie wideo na wszystkich stronach"""
+                # Zaznacz wszystkie w słowniku
+                for idx in all_selected_videos:
+                    all_selected_videos[idx]['checked'] = True
+                # Zaznacz na aktualnej stronie
+                for idx, var in checkbox_vars:
+                    var.set(True)
+                logger.info("✅ Zaznaczono wszystkie wideo")
+
+            def deselect_all():
+                """Odznacza wszystkie wideo na wszystkich stronach"""
+                # Odznacz wszystkie w słowniku
+                for idx in all_selected_videos:
+                    all_selected_videos[idx]['checked'] = False
+                # Odznacz na aktualnej stronie
+                for idx, var in checkbox_vars:
+                    var.set(False)
+                logger.info("❌ Odznaczono wszystkie wideo")
+
+            btn_select_all = CTkButton(
+                select_frame,
+                text="✅ Zaznacz wszystkie",
+                command=select_all,
+                height=28,
+                font=("Helvetica", 9, "bold"),
+                fg_color="#2d5016",
+                hover_color="#3d6020",
+                width=150
+            )
+            btn_select_all.pack(side="left", padx=5, expand=True, fill="x")
+
+            btn_deselect_all = CTkButton(
+                select_frame,
+                text="❌ Odznacz wszystkie",
+                command=deselect_all,
+                height=28,
+                font=("Helvetica", 9, "bold"),
+                fg_color="#501616",
+                hover_color="#602020",
+                width=150
+            )
+            btn_deselect_all.pack(side="left", padx=5, expand=True, fill="x")
 
             # Frame z przyciskami OK/Anuluj
             button_frame = CTkFrame(selector_window, fg_color="transparent")
@@ -1819,10 +1905,16 @@ class YouTubeMP3App(ctk.CTk):
             result = {'confirmed': False, 'selected': []}
 
             def confirm():
-                # Zbierz zaznaczone wideo
-                result['selected'] = [v for v in selected_videos if v['var'].get()]
+                # Zapisz aktualny stan checkboxów przed zamknięciem
+                for idx, var in checkbox_vars:
+                    if idx in all_selected_videos:
+                        all_selected_videos[idx]['checked'] = var.get()
+
+                # Zbierz zaznaczone wideo ze wszystkich stron
+                result['selected'] = [v for idx, v in all_selected_videos.items() if v.get('checked', False)]
                 result['confirmed'] = True
                 selector_window.destroy()
+                logger.info(f"✅ Potwierdzono wybór {len(result['selected'])} wideo")
 
             def cancel():
                 result['confirmed'] = False

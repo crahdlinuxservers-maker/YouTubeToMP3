@@ -1,0 +1,69 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv/
+ENV/
+env/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+logs/
+*.log
+debug.log
+
+# Database
+*.db
+*.db-journal
+download_history.db
+
+# FFmpeg (pobierany automatycznie)
+ffmpeg/
+
+# PyInstaller
+*.spec
+build/
+dist/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temporary
+*.tmp
+*.bak
+*.cache
+
+# App Config (może zawierać ścieżki użytkownika)
+app_config.json
+
+# Pobrane pliki
+Pobrane/
+Downloads/
+
